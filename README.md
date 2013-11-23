@@ -70,13 +70,13 @@ Pesquisar recursos existentes, como bibliotecas ou frameworks que permitam esta 
 
 # Sugestões
 
-http://www.swi-prolog.org/pldoc/package/pl2cpp.html
+[pl2cpp](http://www.swi-prolog.org/pldoc/package/pl2cpp.html)
 
-http://cdsoft.fr/pylog/
+[pylog](http://cdsoft.fr/pylog/)
 
-https://code.google.com/p/pyswip/
+[pyswip](https://code.google.com/p/pyswip/)
 
-http://www.gnu.org/software/gnuprologjava/
+[gnuprologjava](http://www.gnu.org/software/gnuprologjava/)
 
 # Referências
 
