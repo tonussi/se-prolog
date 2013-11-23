@@ -82,5 +82,7 @@ http://www.gnu.org/software/gnuprologjava/
 
 [Expert System at Wiki](https://en.wikipedia.org/wiki/Expert_system)
 
+[Language Binding at Wiki](http://en.wikipedia.org/wiki/Language_binding)
+
 [Sistemas Especialistas](http://www.dee.ufma.br/~lpaucar/teaching/ia2000-1/cap4.html)
 
