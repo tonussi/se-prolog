@@ -2,3 +2,5 @@
 .metadata
 .project
 .config
+*.settings
+*.setting
