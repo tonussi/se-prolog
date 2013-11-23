@@ -5,6 +5,10 @@ Um sistema especialista é um sistema computacional com uma estratégia de resol
 ![Sistemas Especialistas](http://www.dee.ufma.br/~lpaucar/teaching/ia2000-1/figs/se1.gif "Sistemas Especialistas")
 
 
+# Linguagens Pesquisadas
+
+Seguem as linguagens que pesquisamos para interface com o usuário. Todas são ótimas e trabalham bem a abordagem de se fazer ponte entre uma base de conhecimentos em Prolog.
+
 ## Perl
 
 [Linguagem Perl](http://en.wikipedia.org/wiki/Perl)
