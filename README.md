@@ -66,7 +66,7 @@ Um sistema especialista é um sistema computacional com uma estratégia de resol
 
 Implementar um Sistema Especialista utilizando a integração da linguagem prolog com uma linguagem imperativa de alto nível, como Java ou C++.
 
-Pesquisar recursos existentes, como bibliotecas ou frameworks que permitam esta integração e implementar um exemplo de aplicação na qual a interface de usuário seja implementada na linguagem escolhida e a base de conhecimento e as regras de inferencia sejam implementadas em prolog.
+Pesquisar recursos existentes, como bibliotecas ou frameworks que permitam esta integração e implementar um exemplo de aplicação na qual a __interface de usuário__ seja implementada na __linguagem escolhida__ e a __base de conhecimento__ e as regras de inferencia sejam implementadas em __prolog__.
 
 # Sugestões
 
