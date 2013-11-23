@@ -45,11 +45,22 @@ Um sistema especialista é um sistema computacional com uma estratégia de resol
 
 ## Java
 
+[Linguagem Java](http://en.wikipedia.org/wiki/Java_%28programming_language%29)
+
 * object-oriented
 * structured
 * imperative
 * generic
 * reflective
+
+## C++
+
+[Linguagem C++](http://en.wikipedia.org/wiki/C++_%28programming_language%29)
+
+* procedural
+* functional
+* object-oriented
+* generic
 
 # Implementação
 
