@@ -93,25 +93,33 @@ Pesquisar recursos existentes, como bibliotecas ou frameworks que permitam esta 
 
 [Sistemas Especialistas](http://www.dee.ufma.br/~lpaucar/teaching/ia2000-1/cap4.html)
 
-
+[IRQ Expert System](http://www.amzi.com/articles/irq_expert_system.htm)
 
 # Arquitetura (Software architecture)
 
 Base de Conhecimentos
 
-In expert system technology, the knowledge base is expressed with natural language rules IF ... THEN ...
+É basicamente uma série de regras que serão feitas em prolog.
 
-Every rule has an IF part, also called the antecedent and a THEN part, also called the consequent part. These rules must link the evidence about the problem under consideration to the conclusion. For examples :
+```
+IF   | <algo acontecer> ; Antecendente
+THEN | <faça isso>      ; Consequência
+```
 
-    "IF it is living THEN it is mortal"
-    "IF his age = known THEN his year of birth = current year - his age in years"
-    "IF the identity of the germ is not known with certainty AND the germ is gram-positive AND the morphology of the organism is "rod" AND the germ is aerobic THEN there is a strong probability (0.8) that germ is of type enterobacteriacae"[27]
+As regras precisam associar a evidência sobre o problema. Sob considerações a fim de o sistema especialista tirar conclusões para a linguagem de mais alto nível. Exemplos:
 
-This formulation has the advantage of speaking in everyday language which is very rare in computer science (a classic program is coded). Rules express the knowledge to be exploited by the expert system. There exist other formulations of rules, which are not in everyday language, understandable only to computer scientists. Each rule style is adapted to an engine style.
-The inference engine
+```
+IF   | <está vivo>
+THEN | <é mortal>
 
-The inference engine is a computer program designed to produce a reasoning on rules. In order to produce a reasoning, it should be based on logic. There are several kinds of logic: propositional logic, predicates of order 1 or more, epistemic logic, modal logic, temporal logic, fuzzy logic, probabilistic logic (implemented in a Bayesian network), etc. Propositional logic is the basic human logic, that is expressed in syllogisms. The expert system that uses that logic is also called a zeroth-order expert system. With logic, the engine is able to generate new information from the knowledge contained in the rule base and data to be processed.
+IF   | <idade = conhecida>
+THEN | <ano de nascimento = ano atual - idade em anos>
 
-The engine has two ways to run: batch or conversational. In batch, the expert system has all the necessary data to process from the beginning. For the user, the program works as a classical program: he provides data and receives results immediately. Reasoning is invisible. The conversational method becomes necessary when the developer knows he cannot ask the user for all the necessary data at the start, the problem being too complex. The software must "invent" the way to solve the problem, request the missing data from the user, gradually approaching the goal as quickly as possible. The result gives the impression of a dialogue led by an expert. To guide a dialogue, the engine may have several levels of sophistication: "forward chaining", "backward chaining" and mixed chaining. Forward chaining is the questioning of an expert who has no idea of the solution and investigates progressively (e.g. fault diagnosis). In backward chaining, the engine has an idea of the target (e.g. is it okay or not? Or: there is danger but what is the level?). It starts from the goal in hopes of finding the solution as soon as possible. In mixed chaining the engine has an idea of the goal but it is not enough: it deduces in forward chaining from previous user responses all that is possible before asking the next question. So quite often he deduces the answer to the next question before asking it.
+IF   | <the identity of the germ is not known with certainty>
+     + AND <the germ is gram-positive>
+     + AND <the morphology of the organism is rod>
+     + AND <the germ is aerobic>
+THEN | <there is a strong probability (0.8) that germ is of type enterobacteriacae>
+```
 
-A strong interest in using logic is that this kind of software is able to give the user clear explanation of what it is doing (the "Why?") and what it has deduced (the "How?" ). Better yet, thanks to logic, the most sophisticated expert systems are able to detect contradictions[28] in user information or in the knowledge and can explain them clearly, revealing at the same time the expert's knowledge and way of thinking.
+A máquina de inferências é um programa de computador desenhado para produzir um dicernimento sobre regras. Existem muitos tipos de abordagens lógicas, via lógica proposicional, predicados de ordem >= 1, lógica epistêmica, lógica modal, lógica temporal, lógica fuzzy, lógica probabilistica (implementada por Redes de Bayesianas), dentre outras. A proposicional é mais usada, por ser natural nos seres humanos, e é expressada com silogismos. O sistema especialista que usa tal lógica é também chamado de ordem zero-ésima. Com lógica, o programa é capaz de gerar novas informações vindas do conhecimento na base de regras e informações.
