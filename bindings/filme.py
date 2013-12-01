@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from pyswip.prolog import Prolog
-from exception import *
-import math
+class Filme(object):
 
-def main():
-    prolog = Prolog()
-    prolog.consult("intel.pl")
-    diagostico = int(raw_input("O que o paciênte tem? (default: nada)? ") or "nada")
+    def __init__(self, arg):
+        super(Filme, self).__init__()
+        self.arg = arg
 
-if __name__ == "__main__":
-    main()
+    def qualgen(self):
+        pass
+
+    def qualdir(self):
+        pass
+
+    def qualano(self):
+        pass
