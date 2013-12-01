@@ -132,3 +132,7 @@ Pesquisar recursos existentes, como bibliotecas ou frameworks que permitam esta 
 [IRQ Expert System](http://www.amzi.com/articles/irq_expert_system.htm)
 
 [Building Expert Systems in Prolog](http://www.amzi.com/ExpertSystemsInProlog/index.htm)
+
+[Interfacing Arduino Python](http://playground.arduino.cc/Interfacing/Python)
+
+[Python Unit Test Framework](http://pyunit.sourceforge.net/pyunit.html)
