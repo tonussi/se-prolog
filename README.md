@@ -80,7 +80,7 @@ Base de Conhecimentos
 
 É basicamente uma série de regras e calculos que serão feitas em prolog para resolver problemas que são encontrados por sistemas mais sofísticados mas que não tem tanta firmeza de decisão. E prolog é considerado uma línguagem forte para decisões. Por isso ela é usada para sistemas especialistas e bastante interfaceada para varias linguagens de programação.
 
-```
+```prolog
 IF   | <algo acontecer> ; Antecendente
 THEN | <faça isso>      ; Consequência
 ```
@@ -125,6 +125,7 @@ setto(TemperaturaExterior,
       append("Sistem (Erro): Temperatura exterior muito alta.",
              "MuitoQuenteException",
              Write), !.
+```
 
 Ou forma o rendimento ficar entre as cotas superiores ou inferiores.
 
