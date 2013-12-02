@@ -1,8 +1,10 @@
-class SistemaExpecialistaException(Warning):
+# encoding:utf-8
+
+class EmergenciaException(Warning):
     pass
-class NaoExisteEsseFilmeException(SistemaExpecialistaException):
+
+class MuitoFrioException(EmergenciaException):
     pass
-class FilmeDesconhecidoException(SistemaExpecialistaException):
-    pass
-class GeneroDesconhecidoException(SistemaExpecialistaException):
+
+class MuitoQuenteException(EmergenciaException):
     pass
