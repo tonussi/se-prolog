@@ -2,8 +2,7 @@
 
 Um sistema especialista é um sistema computacional com uma estratégia de resolução de problemas.
 
-![Sistemas Especialistas](http://www.dee.ufma.br/~lpaucar/teaching/ia2000-1/figs/se1.gif "Sistemas Especialistas")
-
+![Sistemas Especialistas](sesets.png "Sistemas Especialistas")
 
 # Linguagens Pesquisadas
 
@@ -82,18 +81,73 @@ THEN | <faça isso>      ; Consequência
 
 As regras precisam associar a evidência sobre o problema. Sob considerações a fim de o sistema especialista tirar conclusões para a linguagem de mais alto nível. Exemplos:
 
+Verifica se o valor da temperatura está regulado corretamente.
+
+```prolog
+cota(CotaSuperior, CotaInferior, X, Result) :-
+        X > CotaSuperior,
+        Result is CotaSuperior, !.
+cota(CotaSuperior, CotaInferior, X, Result) :-
+        X < CotaInferior,
+        Result is CotaInferior, !.
+cota(CotaSuperior, CotaInferior, X, Result) :-
+        X =< CotaSuperior,
+        X >= CotaInferior,
+        Result is X, !.
 ```
-IF   | <está vivo>
-THEN | <é mortal>
 
-IF   | <idade = conhecida>
-THEN | <ano de nascimento = ano atual - idade em anos>
+Se a temperatura média e a de fóra estão abaixo da cota superior a elas que é definida logo no começo
+seta a temperatura para alguma temperatura cujo rendimento é válido para as preferencias dos hospedes.
 
-IF   | <the identity of the germ is not known with certainty>
-     + AND <the germ is gram-positive>
-     + AND <the morphology of the organism is rod>
-     + AND <the germ is aerobic>
-THEN | <there is a strong probability (0.8) that germ is of type enterobacteriacae>
+```prolog
+setto(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
+
+        TemperaturaMedia > CotaSuperior,
+        TemperaturaExterior > CotaSuperior,
+        cota(CotaSuperior, CotaInferior, TemperaturaMedia, Rendimento),
+        append("Sistem (Erro): Temperatura exterior muito alta.", "MuitoQuenteException", Write), !.
+
+Ou forma o rendimento ficar entre as cotas superiores ou inferiores.
+
+setto(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
+        TemperaturaMedia < CotaInferior,
+        TemperaturaExterior < CotaInferior,
+        cota(CotaSuperior, CotaInferior, TemperaturaMedia, Rendimento),
+        append("Sistema (Erro): Temperatura exterior muito baixa.","MuitoFrioException", Write), !.
+
+Caso contrario procura por um bom rendimento
+
+setto(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
+        ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Unbounded),
+        cota(CotaSuperior, CotaInferior, Unbounded, Rendimento),
+        \+ Unbounded == Rendimento,
+        append("Sistem (Erro): Ajuste fora dos limites.", "", Write), !.
+
+setto(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
+        ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Unbounded),
+        cota(CotaSuperior, CotaInferior, Unbounded, Rendimento),
+        append("Sistem (Decidido): Temperatura ajustada.", "", Write), !.
+```
+
+
+Aqui seria o motor de decisão realmente, onde ele decide ajustar ou não dependendo dos valores problema passados pelo programinha em Python.
+
+```prolog
+ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Rendimento) :-
+        \+ TemperaturaMedia == TemperaturaExterior,
+        TemperaturaExterior > TemperaturaMedia,
+        abs(TemperaturaExterior-TemperaturaMedia, TaxaVariacao),
+        abs(TemperaturaExterior - (TaxaVariacao * (1 - (Ajuste / 100))), Rendimento).
+
+ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Rendimento) :-
+        \+ TemperaturaMedia == TemperaturaExterior,
+        TemperaturaExterior < TemperaturaMedia,
+        abs(TemperaturaExterior-TemperaturaMedia, TaxaVariacao),
+        abs(TemperaturaExterior + (TaxaVariacao * (1 - (Ajuste / 100))), Rendimento).
+
+ajuste(TemperaturaExterior, TemperaturaExterior, Ajuste, Rendimento) :-
+        TemperaturaMedia == TemperaturaExterior,
+        Rendimento is TemperaturaExterior.
 ```
 
 A máquina de inferências é um programa de computador desenhado para produzir um dicernimento sobre regras. Existem muitos tipos de abordagens lógicas, via lógica proposicional, predicados de ordem >= 1, lógica epistêmica, lógica modal, lógica temporal, lógica fuzzy, lógica probabilistica (implementada por Redes de Bayesianas), dentre outras. A proposicional é mais usada, por ser natural nos seres humanos, e é expressada com silogismos. O sistema especialista que usa tal lógica é também chamado de ordem zero-ésima. Com lógica, o programa é capaz de gerar novas informações vindas do conhecimento na base de regras e informações.
