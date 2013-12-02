@@ -1,8 +1,14 @@
+__Estudante__: Lucas Pagotto Tonussi
+
+__Disciplina__: Paradigmas da Programção INE5416-04208 (20132)
+
+__Professor__: Ricardo Azambuja Silveira
+
 # Definição de sistema especialista (SE)
 
 Um sistema especialista é um sistema computacional com uma estratégia de resolução de problemas.
 
-![Sistemas Especialistas](sesets.png "Sistemas Especialistas")
+![Sistemas Especialistas](sevision.png "Sistemas Especialistas")
 
 # Linguagens Pesquisadas
 
@@ -72,7 +78,7 @@ A linguagem escolhida é Python e estou usando [pyswip](http://code.google.com/p
 
 Base de Conhecimentos
 
-É basicamente uma série de regras que serão feitas em prolog.
+É basicamente uma série de regras e calculos que serão feitas em prolog para resolver problemas que são encontrados por sistemas mais sofísticados mas que não tem tanta firmeza de decisão. E prolog é considerado uma línguagem forte para decisões. Por isso ela é usada para sistemas especialistas e bastante interfaceada para varias linguagens de programação.
 
 ```
 IF   | <algo acontecer> ; Antecendente
@@ -100,37 +106,99 @@ Se a temperatura média e a de fóra estão abaixo da cota superior a elas que �
 seta a temperatura para alguma temperatura cujo rendimento é válido para as preferencias dos hospedes.
 
 ```prolog
-setto(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
+setto(TemperaturaExterior,
+      TemperaturaMedia,
+      CotaSuperior,
+      CotaInferior,
+      Ajuste,
+      Rendimento,
+      Write) :-
 
-        TemperaturaMedia > CotaSuperior,
-        TemperaturaExterior > CotaSuperior,
-        cota(CotaSuperior, CotaInferior, TemperaturaMedia, Rendimento),
-        append("Sistem (Erro): Temperatura exterior muito alta.", "MuitoQuenteException", Write), !.
+      TemperaturaMedia > CotaSuperior,
+      TemperaturaExterior > CotaSuperior,
+
+      cota(CotaSuperior,
+           CotaInferior,
+           TemperaturaMedia,
+           Rendimento),
+
+      append("Sistem (Erro): Temperatura exterior muito alta.",
+             "MuitoQuenteException",
+             Write), !.
 
 Ou forma o rendimento ficar entre as cotas superiores ou inferiores.
 
-setto(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
-        TemperaturaMedia < CotaInferior,
-        TemperaturaExterior < CotaInferior,
-        cota(CotaSuperior, CotaInferior, TemperaturaMedia, Rendimento),
-        append("Sistema (Erro): Temperatura exterior muito baixa.","MuitoFrioException", Write), !.
+```prolog
+setto(TemperaturaExterior,
+      TemperaturaMedia,
+      CotaSuperior,
+      CotaInferior,
+      Ajuste,
+      Rendimento,
+      Write) :-
+
+      TemperaturaMedia < CotaInferior,
+      TemperaturaExterior < CotaInferior,
+
+cota(CotaSuperior,
+     CotaInferior,
+     TemperaturaMedia,
+     Rendimento),
+
+append("Sistema (Erro): Temperatura exterior muito baixa.",
+       "MuitoFrioException",
+       Write), !.
+```
 
 Caso contrario procura por um bom rendimento
 
-setto(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
-        ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Unbounded),
-        cota(CotaSuperior, CotaInferior, Unbounded, Rendimento),
-        \+ Unbounded == Rendimento,
-        append("Sistem (Erro): Ajuste fora dos limites.", "", Write), !.
+```prolog
+setto(TemperaturaExterior,
+      TemperaturaMedia,
+      CotaSuperior,
+      CotaInferior,
+      Ajuste,
+      Rendimento,
+      Write) :-
 
-setto(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
-        ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Unbounded),
-        cota(CotaSuperior, CotaInferior, Unbounded, Rendimento),
-        append("Sistem (Decidido): Temperatura ajustada.", "", Write), !.
+ajuste(TemperaturaExterior,
+       TemperaturaMedia,
+       Ajuste,
+       Unbounded),
+
+cota(CotaSuperior,
+     CotaInferior,
+     Unbounded,
+     Rendimento),
+     \+ Unbounded == Rendimento,
+
+append("Sistem (Erro): Ajuste fora dos limites.",
+       "", Write), !.
+
+setto(TemperaturaExterior,
+      TemperaturaMedia,
+      CotaSuperior,
+      CotaInferior,
+      Ajuste,
+      Rendimento,
+      Write) :-
+
+ajuste(TemperaturaExterior,
+       TemperaturaMedia,
+       Ajuste,
+       Unbounded),
+
+cota(CotaSuperior,
+     CotaInferior,
+     Unbounded,
+     Rendimento),
+
+append("Sistem (Decidido): Temperatura ajustada.",
+       "",
+       Write), !.
 ```
 
-
-Aqui seria o motor de decisão realmente, onde ele decide ajustar ou não dependendo dos valores problema passados pelo programinha em Python.
+Aqui seria o motor de decisão (na verdade onde se faz os calculos para a tomada de decisao 'setto'), onde ele decide ajustar ou não dependendo dos valores problema passados pelo programinha em Python.
 
 ```prolog
 ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Rendimento) :-
@@ -152,28 +220,31 @@ ajuste(TemperaturaExterior, TemperaturaExterior, Ajuste, Rendimento) :-
 
 A máquina de inferências é um programa de computador desenhado para produzir um dicernimento sobre regras. Existem muitos tipos de abordagens lógicas, via lógica proposicional, predicados de ordem >= 1, lógica epistêmica, lógica modal, lógica temporal, lógica fuzzy, lógica probabilistica (implementada por Redes de Bayesianas), dentre outras. A proposicional é mais usada, por ser natural nos seres humanos, e é expressada com silogismos. O sistema especialista que usa tal lógica é também chamado de ordem zero-ésima. Com lógica, o programa é capaz de gerar novas informações vindas do conhecimento na base de regras e informações.
 
-- __Base de Conhecimento__: Regras IF-THEN-ELSE.
+- __Base de Conhecimento__: Regras IF-THEN-ELSE + Matemática.
 - __Base de Dados__: Dados específicos para o problema.
 - __Mecânismo de Inferência__: O núcleo pensante.
 - __Interface de Usuário__: Faz o diálogo.
 
+
+Dentro do diretório bindings existe um simples software em python, que trata a temperatura de um quarto de hotel (prédio, casa) imaginando que existem sensores espalhados e o controlador desse sistema consegue ler as informações dos sensores e jogar no computador (software) para que ele resolva, na verdade, ajude a resolver. É um problema simples. Mas do jeito que está construído basta reusar e adicionar mais sensores (mais variaveis problematicas). Aí no caso de mais adicões é preciso ir em intel.pro e adicionar mais calculos para sensores diferentes. Quando o operador por exemplo alguem responsável no hotel cadastra hóspedes eles dizem a temperatura que eles gostariam que fosse o quarto de hóspedes dele. A cadastrante aciona o software e preenche a temperatura que está sendo lida pelos sensores em graus celcius, e depois preenche o ajuste, o ajuste é o quanto pode variar a temperatura em relação a temperatura externa e interna do quarto (pode ser quarto, recipiente, qualquer coisa, depende do contexto). Conforme hospedes são adicionados intel.pro vai sendo requisitado para que seja resolvido por ele o problema da temperatura externa, e interna, porém a interna é baseado numa média das temperaturas que os hóspedes pediram. É bastante simples.
+
+
+Para usar o software, você precisa:
+
+  - Python 2.7.2+
+  - PySWIP 0.2.2+
+  - Prolog (Swipl) 5+
+
+```bash
+python bindings/main.py
+```
+
+Aos Dependentes de Windows:
+
+- Copia e cola swipl.dll e renomeia a duplicata para libpl.dll
+- Adiciona \\pl\\bin ao PATH das configurações Windows.
+
 ![Modelo](sesch.jpg "Modelo")
-
-# Implementação
-
-Implementar um Sistema Especialista utilizando a integração da linguagem prolog com uma linguagem imperativa de alto nível, como Java ou C++.
-
-Pesquisar recursos existentes, como bibliotecas ou frameworks que permitam esta integração e implementar um exemplo de aplicação na qual a __interface de usuário__ seja implementada na __linguagem escolhida__ e a __base de conhecimento__ e as regras de inferencia sejam implementadas em __prolog__.
-
-# Sugestões
-
-[pl2cpp](http://www.swi-prolog.org/pldoc/package/pl2cpp.html)
-
-[pylog](http://cdsoft.fr/pylog/)
-
-[pyswip](https://code.google.com/p/pyswip/)
-
-[gnuprologjava](http://www.gnu.org/software/gnuprologjava/)
 
 # Referências
 
