@@ -1,0 +1,3 @@
+#!/bin/bash
+
+swipl -f testintel.pro -t main --quiet
