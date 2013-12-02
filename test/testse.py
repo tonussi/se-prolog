@@ -1,16 +1,24 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+
+from pyswip import *
+from pessoa import *
+from quarto import *
+from exceptions import *
+from main import *
+
 from pyswip import *
 
+class SistemaEspecialistaTest(unittest.TestCase):
 
-class TestExamples(unittest.TestCase):
+    def setUp(self):
+        prolog = Prolog()
 
-    # define setup
-    # test prolog comm
-    # test methods
-    # test knowledge
+
+    def tearDown(self):
+        pass
+
 
 if __name__ == "__main__":
     unittest.main()
-
