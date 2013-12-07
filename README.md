@@ -90,6 +90,10 @@ As regras precisam associar a evidência sobre o problema. Sob considerações a
 Verifica se o valor da temperatura está regulado corretamente.
 
 ```prolog
+%%%%%%%%%%%%
+% Limiares %
+%%%%%%%%%%%%
+
 cota(CotaSuperior, CotaInferior, X, Result) :-
         X > CotaSuperior,
         Result is CotaSuperior, !.
@@ -100,108 +104,44 @@ cota(CotaSuperior, CotaInferior, X, Result) :-
         X =< CotaSuperior,
         X >= CotaInferior,
         Result is X, !.
-```
 
-Se a temperatura média e a de fóra estão abaixo da cota superior a elas que é definida logo no começo
-seta a temperatura para alguma temperatura cujo rendimento é válido para as preferencias dos hospedes.
+%%%%%%%%%%%
+% Decisor %
+%%%%%%%%%%%
 
-```prolog
-setto(TemperaturaExterior,
-      TemperaturaMedia,
-      CotaSuperior,
-      CotaInferior,
-      Ajuste,
-      Rendimento,
-      Write) :-
+decisao_tambiente(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
 
-      TemperaturaMedia > CotaSuperior,
-      TemperaturaExterior > CotaSuperior,
+        TemperaturaMedia > CotaSuperior,
+        TemperaturaExterior > CotaSuperior,
+        cota(CotaSuperior, CotaInferior, TemperaturaMedia, Rendimento),
+        append("Sistem (Erro): Temperatura exterior muito alta.", "MuitoQuenteException", Write), !.
 
-      cota(CotaSuperior,
-           CotaInferior,
-           TemperaturaMedia,
-           Rendimento),
+decisao_tambiente(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
 
-      append("Sistem (Erro): Temperatura exterior muito alta.",
-             "MuitoQuenteException",
-             Write), !.
-```
+        % forca rendimento ficar entre as cotas superior e inferior pelo ajuste em %
+        TemperaturaMedia < CotaInferior,
+        TemperaturaExterior < CotaInferior,
+        cota(CotaSuperior, CotaInferior, TemperaturaMedia, Rendimento),
+        append("Sistema (Erro): Temperatura exterior muito baixa.","MuitoFrioException", Write), !.
 
-Ou forma o rendimento ficar entre as cotas superiores ou inferiores.
+decisao_tambiente(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
 
-```prolog
-setto(TemperaturaExterior,
-      TemperaturaMedia,
-      CotaSuperior,
-      CotaInferior,
-      Ajuste,
-      Rendimento,
-      Write) :-
+        % caso contrario procura por um bom rendimento
+        ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Unbounded),
+        cota(CotaSuperior, CotaInferior, Unbounded, Rendimento),
+        \+ Unbounded == Rendimento,
+        append("Sistem (Erro): Ajuste fora dos limites.", "", Write), !.
 
-      TemperaturaMedia < CotaInferior,
-      TemperaturaExterior < CotaInferior,
+decisao_tambiente(TemperaturaExterior, TemperaturaMedia, CotaSuperior, CotaInferior, Ajuste, Rendimento, Write) :-
+        ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Unbounded),
+        cota(CotaSuperior, CotaInferior, Unbounded, Rendimento),
+        append("Sistem (Decidido): Temperatura ajustada.", "", Write), !.
 
-cota(CotaSuperior,
-     CotaInferior,
-     TemperaturaMedia,
-     Rendimento),
 
-append("Sistema (Erro): Temperatura exterior muito baixa.",
-       "MuitoFrioException",
-       Write), !.
-```
+%%%%%%%%%%%%%%
+% Calculador %
+%%%%%%%%%%%%%%
 
-Caso contrario procura por um bom rendimento
-
-```prolog
-setto(TemperaturaExterior,
-      TemperaturaMedia,
-      CotaSuperior,
-      CotaInferior,
-      Ajuste,
-      Rendimento,
-      Write) :-
-
-ajuste(TemperaturaExterior,
-       TemperaturaMedia,
-       Ajuste,
-       Unbounded),
-
-cota(CotaSuperior,
-     CotaInferior,
-     Unbounded,
-     Rendimento),
-     \+ Unbounded == Rendimento,
-
-append("Sistem (Erro): Ajuste fora dos limites.",
-       "", Write), !.
-
-setto(TemperaturaExterior,
-      TemperaturaMedia,
-      CotaSuperior,
-      CotaInferior,
-      Ajuste,
-      Rendimento,
-      Write) :-
-
-ajuste(TemperaturaExterior,
-       TemperaturaMedia,
-       Ajuste,
-       Unbounded),
-
-cota(CotaSuperior,
-     CotaInferior,
-     Unbounded,
-     Rendimento),
-
-append("Sistem (Decidido): Temperatura ajustada.",
-       "",
-       Write), !.
-```
-
-Aqui seria o motor de decisão (na verdade onde se faz os calculos para a tomada de decisao 'setto'), onde ele decide ajustar ou não dependendo dos valores problema passados pelo programinha em Python.
-
-```prolog
 ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Rendimento) :-
         \+ TemperaturaMedia == TemperaturaExterior,
         TemperaturaExterior > TemperaturaMedia,
@@ -217,6 +157,7 @@ ajuste(TemperaturaExterior, TemperaturaMedia, Ajuste, Rendimento) :-
 ajuste(TemperaturaExterior, TemperaturaExterior, Ajuste, Rendimento) :-
         TemperaturaMedia == TemperaturaExterior,
         Rendimento is TemperaturaExterior.
+
 ```
 
 A máquina de inferências é um programa de computador desenhado para produzir um dicernimento sobre regras. Existem muitos tipos de abordagens lógicas, via lógica proposicional, predicados de ordem >= 1, lógica epistêmica, lógica modal, lógica temporal, lógica fuzzy, lógica probabilistica (implementada por Redes de Bayesianas), dentre outras. A proposicional é mais usada, por ser natural nos seres humanos, e é expressada com silogismos. O sistema especialista que usa tal lógica é também chamado de ordem zero-ésima. Com lógica, o programa é capaz de gerar novas informações vindas do conhecimento na base de regras e informações.
