@@ -2,7 +2,7 @@
 
 from pyswip import *
 from pessoa import *
-from quarto import *
+from ambiente import *
 from exceptions import *
 
 def main():
@@ -24,12 +24,12 @@ def main():
     while True:
 
         try:
-            tempExterior = float(input("Sistema: Qual é a temperatura exterior (Celcius)? "))
+            tempexterior = float(input("Sistema: Qual é a temperatura exterior (Celcius)? "))
 
-            if tempExterior < -273.15:
+            if tempexterior < -273.15:
                 raise MuitoFrioException("Cuidado: http://www.wolframalpha.com/input/?i=0+kelvin")
 
-            elif tempExterior > 5510:
+            elif tempexterior > 5510:
                 raise MuitoQuenteException("Cuidado: http://www.wolframalpha.com/input/?i=sun+temp")
 
             savings = float(input("Sistema: Ajuste Desejavel (0~100)%? "))
@@ -44,7 +44,7 @@ def main():
             print "Sistema (Erro): Tente Novamente!"
             pass
 
-    ambiente = Ambiente(tempExterior, savings, prolog)
+    ambiente = Ambiente(tempexterior, savings, prolog)
     print "\n" + str(ambiente)
 
     ###########
