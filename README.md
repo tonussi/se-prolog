@@ -82,7 +82,7 @@ Base de Conhecimentos
 
 ```prolog
 IF   | <algo acontecer> ; Antecendente
-THEN | <faça isso>      ; Consequência
+THEN | <faça isso>      ; Consequencia
 ```
 
 As regras precisam associar a evidência sobre o problema. Sob considerações a fim de o sistema especialista tirar conclusões para a linguagem de mais alto nível. Exemplos:
